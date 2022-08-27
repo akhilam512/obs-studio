@@ -348,7 +348,7 @@ void OBSBasic::ScreenshotSelectedSource()
 		Screenshot(obs_sceneitem_get_source(item));
 	} else {
 		blog(LOG_INFO, "Could not take a source screenshot: "
-			       "no source selected");
+			       "");
 	}
 }
 

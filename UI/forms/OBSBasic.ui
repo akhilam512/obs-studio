@@ -377,7 +377,7 @@
              <bool>false</bool>
             </property>
             <property name="themeID2" stdset="0">
-             <string notr="true">contextBarButton</string>
+             <string notr="false">contextBarButton</string>
             </property>
            </widget>
           </item>
@@ -403,7 +403,7 @@
              <bool>false</bool>
             </property>
             <property name="themeID2" stdset="0">
-             <string notr="true">contextBarButton</string>
+             <string notr="false">contextBarButton</string>
             </property>
            </widget>
           </item>
@@ -429,7 +429,7 @@
              <bool>false</bool>
             </property>
             <property name="themeID2" stdset="0">
-             <string notr="true">contextBarButton</string>
+             <string notr="false">contextBarButton</string>
             </property>
            </widget>
           </item>
@@ -2150,11 +2150,6 @@
     <string>Basic.AutoConfig</string>
    </property>
   </action>
-  <action name="stats">
-   <property name="text">
-    <string>Basic.Stats</string>
-   </property>
-  </action>
   <action name="resetDocks">
    <property name="text">
     <string>Basic.MainMenu.Docks.ResetDocks</string>
@@ -2244,17 +2239,6 @@
   <action name="actionDiscord">
    <property name="text">
     <string>Basic.MainMenu.Help.Discord</string>
-   </property>
-  </action>
-  <action name="toggleStats">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Basic.Stats</string>
    </property>
   </action>
   <action name="actionShowAbout">

@@ -281,10 +281,10 @@ OBSBasic::OBSBasic(QWidget *parent)
 			       QDockWidget::DockWidgetMovable |
 			       QDockWidget::DockWidgetFloatable);
 	statsDock->setWindowTitle(QTStr("Basic.Stats"));
-	addDockWidget(Qt::BottomDockWidgetArea, statsDock);
+	// addDockWidget(Qt::BottomDockWidgetArea, statsDock);
 	statsDock->setVisible(false);
-	statsDock->setFloating(true);
-	statsDock->resize(700, 200);
+	statsDock->setFloating(false);
+	statsDock->resize(0, 0);
 
 	copyActionsDynamicProperties();
 
@@ -330,7 +330,7 @@ OBSBasic::OBSBasic(QWidget *parent)
 	installEventFilter(shortcutFilter);
 
 	stringstream name;
-	name << "OBS " << App()->GetVersionString();
+	name << "OBS-ipad " << App()->GetVersionString();
 	blog(LOG_INFO, "%s", name.str().c_str());
 	blog(LOG_INFO, "---------------------------------");
 
@@ -407,7 +407,7 @@ OBSBasic::OBSBasic(QWidget *parent)
 	assignDockToggle(ui->mixerDock, ui->toggleMixer);
 	assignDockToggle(ui->transitionsDock, ui->toggleTransitions);
 	assignDockToggle(ui->controlsDock, ui->toggleControls);
-	assignDockToggle(statsDock, ui->toggleStats);
+	// assignDockToggle(statsDock, ui->toggleStats);
 
 	// Register shortcuts for Undo/Redo
 	ui->actionMainUndo->setShortcut(Qt::CTRL | Qt::Key_Z);
@@ -425,7 +425,7 @@ OBSBasic::OBSBasic(QWidget *parent)
 	ui->toggleMixer->setChecked(false);
 	ui->toggleTransitions->setChecked(false);
 	ui->toggleControls->setChecked(false);
-	ui->toggleStats->setChecked(false);
+	// ui->toggleStats->setChecked(false);
 
 	QPoint curPos;
 
@@ -479,6 +479,19 @@ OBSBasic::OBSBasic(QWidget *parent)
 
 	UpdatePreviewSafeAreas();
 	UpdatePreviewSpacingHelpers();
+	ui->scenesDock->setVisible(false);
+	ui->sourcesDock->setVisible(false);
+	ui->mixerDock->setVisible(false);
+	ui->transitionsDock->setVisible(false);
+    ui->controlsDock->setVisible(false);
+	statsDock->setVisible(false);
+	ui->streamButton->setVisible(false);
+	ui->recordButton->setVisible(false);
+	ui->exitButton->setVisible(false);
+	ui->settingsButton->setVisible(false);
+	ui->statusbar->setVisible(false);
+	// ui->statsDock->setVisible(
+	// ui->contextBarButton->setVisible(false);
 }
 
 static void SaveAudioDevice(const char *name, int channel, obs_data_t *parent,
@@ -2106,6 +2119,12 @@ void OBSBasic::OBSInit()
 		OBSMessageBox::warning(this, QTStr("PluginsFailedToLoad.Title"),
 				       failed_msg);
 	}
+
+		ui->scenesDock->setVisible(false);
+	ui->sourcesDock->setVisible(false);
+	ui->mixerDock->setVisible(false);
+	ui->transitionsDock->setVisible(false);
+	ui->controlsDock->setVisible(false);
 }
 
 void OBSBasic::OnFirstLoad()
@@ -3427,7 +3446,7 @@ void OBSBasic::VolControlContextMenu()
 	QAction propertiesAction(QTStr("Properties"), this);
 	QAction advPropAction(QTStr("Basic.MainMenu.Edit.AdvAudio"), this);
 
-	QAction toggleControlLayoutAction(QTStr("VerticalLayout"), this);
+	QAction toggleControlLayoutAction(QTStr("HorizontalLayout"), this);
 	toggleControlLayoutAction.setCheckable(true);
 	toggleControlLayoutAction.setChecked(config_get_bool(
 		GetGlobalConfig(), "BasicWindow", "VerticalVolControl"));
@@ -8944,13 +8963,13 @@ void OBSBasic::on_resetDocks_triggered(bool force)
 
 	QList<int> sizes{cx22_5, cx22_5, mixerSize, cx5, cx21};
 
-	ui->scenesDock->setVisible(true);
-	ui->sourcesDock->setVisible(true);
-	ui->mixerDock->setVisible(true);
-	ui->transitionsDock->setVisible(true);
-	ui->controlsDock->setVisible(true);
+	ui->scenesDock->setVisible(false);
+	ui->sourcesDock->setVisible(false);
+	ui->mixerDock->setVisible(false);
+	ui->transitionsDock->setVisible(false);
+	ui->controlsDock->setVisible(false);
 	statsDock->setVisible(false);
-	statsDock->setFloating(true);
+	statsDock->setFloating(false);
 
 	resizeDocks(docks, {cy, cy, cy, cy, cy}, Qt::Vertical);
 	resizeDocks(docks, sizes, Qt::Horizontal);
@@ -9185,14 +9204,14 @@ void OBSBasic::SystemTrayInit()
 	trayIcon->setToolTip("OBS Studio");
 
 	showHide = new QAction(QTStr("Basic.SystemTray.Show"), trayIcon.data());
-	sysTrayStream = new QAction(
-		StreamingActive() ? QTStr("Basic.Main.StopStreaming")
-				  : QTStr("Basic.Main.StartStreaming"),
-		trayIcon.data());
-	sysTrayRecord = new QAction(
-		RecordingActive() ? QTStr("Basic.Main.StopRecording")
-				  : QTStr("Basic.Main.StartRecording"),
-		trayIcon.data());
+	// sysTrayStream = new QAction(
+	// 	StreamingActive() ? QTStr("Basic.Main.StopStreaming")
+	// 			  : QTStr("Basic.Main.StartStreaming"),
+	// 	trayIcon.data());
+	// sysTrayRecord = new QAction(
+	// 	RecordingActive() ? QTStr("Basic.Main.StopRecording")
+	// 			  : QTStr("Basic.Main.StartRecording"),
+	// 	trayIcon.data());
 	sysTrayReplayBuffer = new QAction(
 		ReplayBufferActive() ? QTStr("Basic.Main.StopReplayBuffer")
 				     : QTStr("Basic.Main.StartReplayBuffer"),
@@ -9201,26 +9220,26 @@ void OBSBasic::SystemTrayInit()
 		VirtualCamActive() ? QTStr("Basic.Main.StopVirtualCam")
 				   : QTStr("Basic.Main.StartVirtualCam"),
 		trayIcon.data());
-	exit = new QAction(QTStr("Exit"), trayIcon.data());
+	// exit = new QAction(QTStr("Exit"), trayIcon.data());
 
 	trayMenu = new QMenu;
-	previewProjector = new QMenu(QTStr("PreviewProjector"));
-	studioProgramProjector = new QMenu(QTStr("StudioProgramProjector"));
-	AddProjectorMenuMonitors(previewProjector, this,
-				 SLOT(OpenPreviewProjector()));
-	AddProjectorMenuMonitors(studioProgramProjector, this,
-				 SLOT(OpenStudioProgramProjector()));
+	// previewProjector = new QMenu(QTStr("PreviewProjector"));
+	// studioProgramProjector = new QMenu(QTStr("StudioProgramProjector"));
+	// AddProjectorMenuMonitors(previewProjector, this,
+	// 			 SLOT(OpenPreviewProjector()));
+	// AddProjectorMenuMonitors(studioProgramProjector, this,
+	// 			 SLOT(OpenStudioProgramProjector()));
 	trayMenu->addAction(showHide);
 	trayMenu->addSeparator();
-	trayMenu->addMenu(previewProjector);
-	trayMenu->addMenu(studioProgramProjector);
-	trayMenu->addSeparator();
-	trayMenu->addAction(sysTrayStream);
-	trayMenu->addAction(sysTrayRecord);
+	// trayMenu->addMenu(previewProjector);
+	// trayMenu->addMenu(studioProgramProjector);
+	// trayMenu->addSeparator();
+	// trayMenu->addAction(sysTrayStream);
+	// trayMenu->addAction(sysTrayRecord);
 	trayMenu->addAction(sysTrayReplayBuffer);
 	trayMenu->addAction(sysTrayVirtualCam);
 	trayMenu->addSeparator();
-	trayMenu->addAction(exit);
+	// trayMenu->addAction(exit);
 	trayIcon->setContextMenu(trayMenu);
 	trayIcon->show();
 
@@ -9236,15 +9255,20 @@ void OBSBasic::SystemTrayInit()
 		SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this,
 		SLOT(IconActivated(QSystemTrayIcon::ActivationReason)));
 	connect(showHide, SIGNAL(triggered()), this, SLOT(ToggleShowHide()));
-	connect(sysTrayStream, SIGNAL(triggered()), this,
-		SLOT(on_streamButton_clicked()));
-	connect(sysTrayRecord, SIGNAL(triggered()), this,
-		SLOT(on_recordButton_clicked()));
+	// connect(sysTrayStream, SIGNAL(triggered()), this,
+	// 	SLOT(on_streamButton_clicked()));
+	// connect(sysTrayRecord, SIGNAL(triggered()), this,
+	// 	SLOT(on_recordButton_clicked()));
 	connect(sysTrayReplayBuffer.data(), &QAction::triggered, this,
 		&OBSBasic::ReplayBufferClicked);
 	connect(sysTrayVirtualCam.data(), &QAction::triggered, this,
 		&OBSBasic::VCamButtonClicked);
-	connect(exit, SIGNAL(triggered()), this, SLOT(close()));
+	// connect(exit, SIGNAL(triggered()), this, SLOT(close()));
+	ui->scenesDock->setVisible(false);
+	ui->sourcesDock->setVisible(false);
+	ui->mixerDock->setVisible(false);
+	ui->transitionsDock->setVisible(false);
+	ui->controlsDock->setVisible(false);
 }
 
 void OBSBasic::IconActivated(QSystemTrayIcon::ActivationReason reason)
